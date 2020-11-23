@@ -11,6 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paxos.Core.Tests", "tests\P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paxos.Core", "src\Paxos.Core\Paxos.Core.csproj", "{F2F5682E-4447-4A03-A2BD-447A056978E5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{8F7F954D-A4C7-4408-95E5-BF4690D56389}"
+	ProjectSection(SolutionItems) = preProject
+		docs\paxos-simple.pdf = docs\paxos-simple.pdf
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
