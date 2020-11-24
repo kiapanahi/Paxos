@@ -2,9 +2,9 @@
 
 namespace Paxos.Core.Contracts
 {
-    public interface IAcceptor
+    public interface IAcceptor<T>
     {
-        Task<PrepareResponse> ReceivePrepareRequest(PrepareRequest request);
-        Task ReceiveAcceptRequest<T>(AcceptRequest<T> request) where T : Proposal<T>;
+        Task<PrepareResponse> ReceivePrepareRequestAsync(PrepareRequest<T> request);
+        Task ReceiveAcceptRequestAsync(AcceptRequest<T> request);
     }
 }
