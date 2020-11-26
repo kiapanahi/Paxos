@@ -4,7 +4,7 @@ namespace Paxos.Core.Contracts
 {
     public interface IProposer<T>
     {
-        Task<PrepareResponse> SendPrepareRequestAsync();
-        Task SendAcceptRequest(AcceptRequest<T> request);
+        Task SendPrepareRequestAsync();
+        Task SendAcceptRequestAsync(AcceptRequest<T> request);
     }
 }

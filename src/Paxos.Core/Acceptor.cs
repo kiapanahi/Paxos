@@ -22,7 +22,7 @@ namespace Paxos.Core
         public abstract string Identifier { get; }
 
         public Task ReceiveAcceptRequestAsync(AcceptRequest<T> request) => throw new NotImplementedException();
-        public Task<PrepareResponse> ReceivePrepareRequestAsync(PrepareRequest<T> request)
+        public virtual Task<PrepareResponse> ReceivePrepareRequestAsync(PrepareRequest request)
         {
             if (request.Proposal.Number > AcceptedProposalNumber)
             {

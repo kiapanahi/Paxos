@@ -5,14 +5,6 @@ using Xunit;
 
 namespace Paxos.Core.Tests.Acceptor
 {
-    internal class SampleAcceptor : Acceptor<string>
-    {
-        public SampleAcceptor(string identifier)
-        {
-            Identifier = identifier;
-        }
-        public override string Identifier { get; }
-    }
 
     public class AcceptorTests
     {
@@ -38,7 +30,7 @@ namespace Paxos.Core.Tests.Acceptor
             var acceptor = new SampleAcceptor("sample-acceptor");
 
             var proposal = new Proposal<string>(1, "192.168.0.1");
-            var request = new PrepareRequest<string>(proposal);
+            var request = new PrepareRequest(proposal);
             var response = await acceptor.ReceivePrepareRequestAsync(request)
                                     .ConfigureAwait(false);
 
@@ -64,12 +56,12 @@ namespace Paxos.Core.Tests.Acceptor
             var acceptor = new SampleAcceptor("sample-acceptor");
 
             var winningProposal = new Proposal<string>(100, "192.168.0.100");
-            var winningRequest = new PrepareRequest<string>(winningProposal);
+            var winningRequest = new PrepareRequest(winningProposal);
             var winningResponse = await acceptor.ReceivePrepareRequestAsync(winningRequest)
                                     .ConfigureAwait(false);
 
             var newProposal = new Proposal<string>(99, "192.168.0.99");
-            var newRequest = new PrepareRequest<string>(newProposal);
+            var newRequest = new PrepareRequest(newProposal);
             var newResponse = await acceptor.ReceivePrepareRequestAsync(newRequest)
                                     .ConfigureAwait(false);
 
@@ -104,7 +96,7 @@ namespace Paxos.Core.Tests.Acceptor
             var maxNumber = randomNumbers.Max();
 
             var requestTasks = randomNumbers
-                .Select(i => new PrepareRequest<string>(new Proposal<string>(i, $"proposal-{i:D5}")))
+                .Select(i => new PrepareRequest(new Proposal<string>(i, $"proposal-{i:D5}")))
                 .Select(req => acceptor.ReceivePrepareRequestAsync(req));
 
             _ = await Task.WhenAll(requestTasks).ConfigureAwait(false);

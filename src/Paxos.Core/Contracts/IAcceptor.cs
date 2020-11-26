@@ -1,10 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace Paxos.Core.Contracts
 {
     public interface IAcceptor<T>
     {
-        Task<PrepareResponse> ReceivePrepareRequestAsync(PrepareRequest<T> request);
+        Task<PrepareResponse> ReceivePrepareRequestAsync(PrepareRequest request);
         Task ReceiveAcceptRequestAsync(AcceptRequest<T> request);
     }
 }
