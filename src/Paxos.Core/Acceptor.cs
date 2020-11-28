@@ -5,21 +5,27 @@ using Paxos.Core.Contracts;
 
 namespace Paxos.Core
 {
-    public abstract class Acceptor<T> : IAcceptor<T>
+    public class Acceptor<T> : IAcceptor<T>
     {
         private readonly AsyncLocal<Proposal> _proposal;
-        public Acceptor()
+        public Acceptor(string identifier)
         {
+            if (string.IsNullOrEmpty(identifier))
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            Identifier = identifier;
             _proposal = new AsyncLocal<Proposal>
             {
                 Value = new Proposal(long.MinValue)
             };
         }
+        public string Identifier { get; }
 
         public Proposal AcceptedProposal => _proposal.Value!;
         public long AcceptedProposalNumber => AcceptedProposal.Number;
 
-        public abstract string Identifier { get; }
 
         public Task ReceiveAcceptRequestAsync(AcceptRequest<T> request) => throw new NotImplementedException();
         public virtual Task<PrepareResponse> ReceivePrepareRequestAsync(PrepareRequest request)

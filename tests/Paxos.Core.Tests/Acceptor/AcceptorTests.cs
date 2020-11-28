@@ -11,7 +11,7 @@ namespace Paxos.Core.Tests.Acceptor
         [Fact]
         public void Acceptor_ToString()
         {
-            var sut = new SampleAcceptor("sample-acceptor");
+            var sut = new Acceptor<string>("sample-acceptor");
 
             Assert.Equal($"sample-acceptor: Proposal {{ Number = {long.MinValue} }}", sut.ToString());
         }
@@ -19,7 +19,7 @@ namespace Paxos.Core.Tests.Acceptor
         [Fact]
         public void NewAcceptor_AcceptedProposal_IsNotNull()
         {
-            var sut = new SampleAcceptor("sample-acceptor");
+            var sut = new Acceptor<string>("sample-acceptor");
             Assert.NotNull(sut.AcceptedProposal);
             Assert.Equal(long.MinValue, sut.AcceptedProposalNumber);
         }
@@ -27,7 +27,7 @@ namespace Paxos.Core.Tests.Acceptor
         [Fact]
         public async Task NewAcceptor_ReceivePrepareRequest_Promised()
         {
-            var acceptor = new SampleAcceptor("sample-acceptor");
+            var acceptor = new Acceptor<string>("sample-acceptor");
 
             var proposal = new Proposal<string>(1, "192.168.0.1");
             var request = new PrepareRequest(proposal);
@@ -45,7 +45,7 @@ namespace Paxos.Core.Tests.Acceptor
 
             Assert.Equal(1, acceptor.AcceptedProposalNumber);
             Assert.NotNull(acceptor.AcceptedProposal.As<Proposal<string>>());
-            Assert.Equal("192.168.0.1", acceptor.AcceptedProposal.As<Proposal<string>>().Value);
+            Assert.Equal("192.168.0.1", acceptor.AcceptedProposal.As<Proposal<string>>()!.Value);
 
             Assert.Equal($"sample-acceptor: Proposal {{ Number = 1, Value = 192.168.0.1 }}", acceptor.ToString());
         }
@@ -53,7 +53,7 @@ namespace Paxos.Core.Tests.Acceptor
         [Fact]
         public async Task Acceptor_OlderPrepareRequest_Rejected()
         {
-            var acceptor = new SampleAcceptor("sample-acceptor");
+            var acceptor = new Acceptor<string>("sample-acceptor");
 
             var winningProposal = new Proposal<string>(100, "192.168.0.100");
             var winningRequest = new PrepareRequest(winningProposal);
@@ -78,7 +78,7 @@ namespace Paxos.Core.Tests.Acceptor
 
             Assert.Equal(100, acceptor.AcceptedProposalNumber);
             Assert.NotNull(acceptor.AcceptedProposal.As<Proposal<string>>());
-            Assert.Equal("192.168.0.100", acceptor.AcceptedProposal.As<Proposal<string>>().Value);
+            Assert.Equal("192.168.0.100", acceptor.AcceptedProposal.As<Proposal<string>>()!.Value);
 
             Assert.Equal($"sample-acceptor: Proposal {{ Number = 100, Value = 192.168.0.100 }}", acceptor.ToString());
         }
@@ -87,7 +87,7 @@ namespace Paxos.Core.Tests.Acceptor
         public async Task Acceptor_CuncurrentPrepareRequests_PromiseHighestNumber()
         {
             var rnd = new Random(42);
-            var acceptor = new SampleAcceptor("sample-acceptor");
+            var acceptor = new Acceptor<string>("sample-acceptor");
 
             var randomNumbers = Enumerable.Range(1, 10)
                 .Select(i => rnd.Next(200, 500))

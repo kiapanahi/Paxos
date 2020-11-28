@@ -10,8 +10,7 @@ namespace Paxos.Core.Tests.Proposer
         {
             private readonly int _delayMilliseconds;
 
-            public override string Identifier => "long-running-acceptor";
-            public LongRunningAcceptor(int delayMilliseconds)
+            public LongRunningAcceptor(int delayMilliseconds): base("long-running-acceptor")
             {
                 _delayMilliseconds = delayMilliseconds;
             }
