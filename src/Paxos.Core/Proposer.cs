@@ -6,7 +6,7 @@ using Paxos.Core.Contracts;
 
 namespace Paxos.Core
 {
-    public abstract class Proposer<T> : IProposer<T>
+    public class Proposer<T> : IProposer<T>
     {
         private readonly IAcceptorCollectionProvider<T> _acceptorCollectionProvider;
         private readonly IProposerNumberGenerator _numberGenerator;
@@ -29,6 +29,7 @@ namespace Paxos.Core
 
         protected virtual TimeSpan PrepareRequestTimeout { get; }
         protected string Identitifier { get; }
+
         protected long Number => _number;
 
         public Task SendAcceptRequestAsync(AcceptRequest<T> request) => throw new System.NotImplementedException();
