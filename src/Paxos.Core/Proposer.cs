@@ -46,6 +46,8 @@ namespace Paxos.Core
             if (PrepareResponseIsPromisedByMajorityOfAcceptors(acceptorResponses, acceptors.Length))
             {
                 // happy, send accept request
+                // if all responses have null proposals, select new propsal<T>
+                // else select highest response number propsal value
             }
             else
             {
