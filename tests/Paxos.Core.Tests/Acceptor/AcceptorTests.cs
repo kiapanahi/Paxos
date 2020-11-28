@@ -20,8 +20,8 @@ namespace Paxos.Core.Tests.Acceptor
         public void NewAcceptor_AcceptedProposal_IsNotNull()
         {
             var sut = new Acceptor<string>("sample-acceptor");
-            Assert.NotNull(sut.AcceptedProposal);
-            Assert.Equal(long.MinValue, sut.AcceptedProposalNumber);
+            Assert.NotNull(sut.PromisedProposal);
+            Assert.Equal(long.MinValue, sut.PromisedProposalNumber);
         }
 
         [Fact]
@@ -43,9 +43,9 @@ namespace Paxos.Core.Tests.Acceptor
             Assert.Equal(proposal, response.AcceptedProposal);
 
 
-            Assert.Equal(1, acceptor.AcceptedProposalNumber);
-            Assert.NotNull(acceptor.AcceptedProposal.As<Proposal<string>>());
-            Assert.Equal("192.168.0.1", acceptor.AcceptedProposal.As<Proposal<string>>()!.Value);
+            Assert.Equal(1, acceptor.PromisedProposalNumber);
+            Assert.NotNull(acceptor.PromisedProposal.As<Proposal<string>>());
+            Assert.Equal("192.168.0.1", acceptor.PromisedProposal.As<Proposal<string>>()!.Value);
 
             Assert.Equal($"sample-acceptor: Proposal {{ Number = 1, Value = 192.168.0.1 }}", acceptor.ToString());
         }
@@ -76,9 +76,9 @@ namespace Paxos.Core.Tests.Acceptor
             Assert.Equal(winningProposal, winningResponse.AcceptedProposal);
 
 
-            Assert.Equal(100, acceptor.AcceptedProposalNumber);
-            Assert.NotNull(acceptor.AcceptedProposal.As<Proposal<string>>());
-            Assert.Equal("192.168.0.100", acceptor.AcceptedProposal.As<Proposal<string>>()!.Value);
+            Assert.Equal(100, acceptor.PromisedProposalNumber);
+            Assert.NotNull(acceptor.PromisedProposal.As<Proposal<string>>());
+            Assert.Equal("192.168.0.100", acceptor.PromisedProposal.As<Proposal<string>>()!.Value);
 
             Assert.Equal($"sample-acceptor: Proposal {{ Number = 100, Value = 192.168.0.100 }}", acceptor.ToString());
         }
@@ -102,7 +102,7 @@ namespace Paxos.Core.Tests.Acceptor
             _ = await Task.WhenAll(requestTasks).ConfigureAwait(false);
 
 
-            Assert.Equal(maxNumber, acceptor.AcceptedProposalNumber);
+            Assert.Equal(maxNumber, acceptor.PromisedProposalNumber);
 
         }
     }
